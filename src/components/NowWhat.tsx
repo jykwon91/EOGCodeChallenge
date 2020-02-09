@@ -8,6 +8,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from './Avatar';
+import Metrics from '../Features/Metrics/Metrics'
 
 const useStyles = makeStyles({
   card: {
@@ -27,8 +28,7 @@ export default () => {
             <ListItemText primary="Explore the GraphQL API" />
           </ListItem>
           <ListItem>
-            <Avatar>2</Avatar>
-            <ListItemText primary="Add ability to select Metrics" />
+            <Metrics />
           </ListItem>
           <ListItem>
             <Avatar>3</Avatar>
