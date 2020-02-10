@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { createClient, Provider } from 'urql';
 //import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
@@ -13,9 +12,6 @@ type CardProps = {
   value: number,
   unit: string,
 }
-const client = createClient({
-  url: 'https://react.eogresources.com/graphql',
-});
 
 // const useStyles = makeStyles(theme => ({
 //   title: {
@@ -28,9 +24,7 @@ const client = createClient({
 
 export default () => {
   return (
-    <Provider value={client}>
-      <MetricCard />
-    </Provider>
+    <MetricCard />
   );
 };
 

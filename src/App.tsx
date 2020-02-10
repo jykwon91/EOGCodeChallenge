@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import MetricListDataWrapper from './components/MetricListDataWrapper';
+import MetricGraph from './Features/MetricGraph/MetricGraph';
+import MetricGraphData from './components/MetricGraphData';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -62,8 +64,6 @@ const wsLink = new WebSocketLink({
 const link = split(
   // split based on operation type
   ({ query }) => {
-    console.log("asdf");
-    console.log(query);
     const definition = getMainDefinition(query);
     return (
       definition.kind === 'OperationDefinition' &&
@@ -101,7 +101,10 @@ export default () => {
               </Paper>
             </Grid>
             <Grid item xs={10}>
-              <Paper className={classes.paper}>xs=10</Paper>
+              <Paper className={classes.paper}>
+                <MetricGraphData />
+                <MetricGraph />
+              </Paper>
             </Grid>
           </Grid>
           <ToastContainer />
