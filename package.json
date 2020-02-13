@@ -16,6 +16,7 @@
     "apollo-hooks": "^2.7.2",
     "apollo-link-http": "^1.5.16",
     "apollo-link-ws": "^1.0.19",
+    "eslint-config-prettier": "^6.10.0",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.3",
     "hooks": "^0.3.2",
@@ -37,15 +38,19 @@
     "redux-saga": "^1.1.1",
     "redux-starter-kit": "^1.0.1",
     "subscriptions-transport-ws": "^0.9.16",
-    "typescript": "^3.7.2",
+    "tslint": "^6.0.0",
+    "tslint-react": "^4.2.0",
+    "typescript": "^3.7.5",
     "underscore": "^1.9.2",
-    "urql": "^1.6.3"
+    "urql": "^1.6.3",
+    "why-did-you-update": "^1.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .js --ext .tsx ."
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -60,13 +65,13 @@
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
     "concurrently": "^5.0.0",
-    "eslint": "^6.6.0",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-flowtype": "^4.2.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.2.0",
     "prettier": "^1.18.2",
     "redux-devtools-extension": "^2.13.5"
