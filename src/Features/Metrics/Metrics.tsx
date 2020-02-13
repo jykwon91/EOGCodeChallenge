@@ -1,11 +1,8 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions } from './reducer';
-import { Provider, createClient, useQuery } from 'urql';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import InputLabel from '@material-ui/core/InputLabel';
-import { makeStyles } from '@material-ui/core/styles';
-import { IState } from '../../store';
+import LinearProgress from "@material-ui/core/LinearProgress";
+import InputLabel from "@material-ui/core/InputLabel";
+import { makeStyles } from "@material-ui/core/styles";
 import gql from 'graphql-tag';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -13,10 +10,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import Input from '@material-ui/core/Input';
-
-const client = createClient({
-  url: 'https://react.eogresources.com/graphql',
-});
+import { IState } from '../../store';
+import { actions } from "./reducer";
+import { useQuery } from "react-apollo-hooks";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -47,40 +43,37 @@ const MenuProps = {
   },
 };
 
-const query = gql`
-{
-  getMetrics
-}
-`;
+
 
 const getMetrics = (state: IState) => {
   const { metricList } = state.metrics;
   return {
-    metricList
-  }
+    metricList,
+  };
 };
 
-export default () => {
-  return (
-    <Provider value={client}>
-      <Metrics />
-    </Provider>
-  );
-};
+// export default () => {
+//   return (
+//       <Metrics />
+//   )
+// };
 
-const Metrics:FunctionComponent<{ initial?: string}> = ({ initial = ''}) => {
+const Metrics: FunctionComponent<{ initial?: string }> = ({ initial = "" }) => {
   const classes = useStyles();
   const [metricName, setSelectedMetrics] = React.useState<string[]>([]);
   const dispatch = useDispatch();
   const { metricList } = useSelector(getMetrics);
 
-  //Get graphql data for metric getMetrics which 
-  //returns a list of metric categories
-  const [result] = useQuery({
-    query
-  });
+  const query = gql`
+  {
+    getMetrics
+  }
+`;
+  // Get graphql data for metric getMetrics which
+  // returns a list of metric categories
+  const result = useQuery(query);
 
-  const { fetching, data, error } = result;
+  const { loading, data, error } = result;
   useEffect(() => {
     if (error) {
       dispatch(actions.metricsApiErrorReceived({ error: error.message }));
@@ -89,16 +82,16 @@ const Metrics:FunctionComponent<{ initial?: string}> = ({ initial = ''}) => {
     if (!data) return;
     const { getMetrics } = data;
     dispatch(actions.metricListDataRecevied(getMetrics));
-  }, [dispatch, data, error]);
+  }, [data]);
 
-  if (fetching) return <LinearProgress />;
+  if (loading) return <LinearProgress />;
 
-  //handle multiple select change
+  // handle multiple select change
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSelectedMetrics(event.target.value as string[]);
     dispatch(actions.metricListUpdate(event.target.value as string[]));
   };
-
+  console.log('Metrics rendered', actions);
   return (
     <FormControl className={classes.formControl}>
       <InputLabel id="demo-mutiple-checkbox-label">Tag</InputLabel>
@@ -120,5 +113,6 @@ const Metrics:FunctionComponent<{ initial?: string}> = ({ initial = ''}) => {
         ))}
       </Select>
     </FormControl>
-    );
+  );
 };
+export default memo(Metrics);

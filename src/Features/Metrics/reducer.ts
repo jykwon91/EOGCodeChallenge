@@ -19,10 +19,14 @@ const slice = createSlice({
   initialState,
   reducers: {
     metricListDataRecevied: (state, action: PayloadAction<string[]>) => {
+      console.log(action);
       state.metricList = action.payload;
     },
-    metricsApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
+    metricsApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => {
+      console.log(action);
+    },
     metricListUpdate: (state, action: PayloadAction<string[]>) => {
+      console.log(action);
       state.selectedMetricList = action.payload;
     }
   },
