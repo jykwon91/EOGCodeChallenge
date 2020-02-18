@@ -34,14 +34,20 @@ const slice = createSlice({
   initialState,
   reducers: {
     metricCardDataRecevied: (state, action: PayloadAction<MetricCard>) => {
-      state.metricCardList.push(action.payload);
+      console.log("metriccarddatareceived");
       const cardList = state.metricCardList;
-      for (var i=0; i<cardList.length; i++) {
+      let found = false;
+      for (let i = 0; i <cardList.length; i++) {
         if (cardList[i].metric === action.payload.metric) {
           cardList[i] = action.payload;
+          found = true;
         }
       }
+      if (!found) {
+        state.metricCardList.push(action.payload);
+      }
       state.metricCardList = cardList;
+      console.log(state);
     },
     metricCardApiErrorReceived: (state, action: PayloadAction<ApiErrorAction>) => state,
   },

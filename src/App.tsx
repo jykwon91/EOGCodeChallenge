@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { MuiThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
@@ -15,11 +15,12 @@ import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import MetricGraphData from "./components/MetricGraphData";
-import MetricGraph from './Features/MetricGraph/MetricGraph';
 import MetricListDataWrapper from "./components/MetricListDataWrapper";
 import Wrapper from './components/Wrapper';
 import Header from "./components/Header";
+import DataController from "./components/DataController";
 import Metrics from './Features/Metrics/Metrics';
+//import Test from './Features/Test/Test';
 import createStore from "./store";
 
 const store = createStore();
@@ -42,7 +43,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    minHeight: '500px',
+    minHeight: '640px',
   },
 }));
 
@@ -71,15 +72,22 @@ const link = split(
   httpLink,
 );
 
-// const client = useApolloClient();
-
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link,
 });
 
+const getEpochTime = () => {
+  //timestamp in milliseconds
+  let now = Date.now();
+  //30 minutes before now
+  return now = now - 1800000;
+}
+
 export default () => {
   const classes = useStyles();
+  const [epochTime, setEpochTime] = useState<number>(getEpochTime());
+
   console.log('app');
   return (
     <ApolloProvider client={client}>
@@ -88,17 +96,16 @@ export default () => {
         <Provider store={store}>
           <Wrapper>
             <Header />
-
             <Grid container spacing={3}>
               <Grid item xs={2}>
                 <Paper className={classes.paper}>
                   <Metrics />
-                  <MetricListDataWrapper />
+                  <MetricListDataWrapper client={client} epoch={epochTime}/>
                 </Paper>
               </Grid>
               <Grid item xs={10}>
                 <Paper className={classes.paper}>
-                  <MetricGraphData />
+                  <MetricGraphData client={client} epoch={epochTime}/>
                 </Paper>
               </Grid>
             </Grid>

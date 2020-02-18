@@ -43,8 +43,6 @@ const MenuProps = {
   },
 };
 
-
-
 const getMetrics = (state: IState) => {
   const { metricList } = state.metrics;
   return {
@@ -59,16 +57,17 @@ const getMetrics = (state: IState) => {
 // };
 
 const Metrics: FunctionComponent<{ initial?: string }> = ({ initial = "" }) => {
+
   const classes = useStyles();
   const [metricName, setSelectedMetrics] = React.useState<string[]>([]);
   const dispatch = useDispatch();
   const { metricList } = useSelector(getMetrics);
 
   const query = gql`
-  {
-    getMetrics
-  }
-`;
+    {
+      getMetrics
+    }
+  `;
   // Get graphql data for metric getMetrics which
   // returns a list of metric categories
   const result = useQuery(query);
@@ -82,7 +81,7 @@ const Metrics: FunctionComponent<{ initial?: string }> = ({ initial = "" }) => {
     if (!data) return;
     const { getMetrics } = data;
     dispatch(actions.metricListDataRecevied(getMetrics));
-  }, [data]);
+  }, [data, error]);
 
   if (loading) return <LinearProgress />;
 
@@ -91,6 +90,7 @@ const Metrics: FunctionComponent<{ initial?: string }> = ({ initial = "" }) => {
     setSelectedMetrics(event.target.value as string[]);
     dispatch(actions.metricListUpdate(event.target.value as string[]));
   };
+
   console.log('Metrics rendered', actions);
   return (
     <FormControl className={classes.formControl}>
